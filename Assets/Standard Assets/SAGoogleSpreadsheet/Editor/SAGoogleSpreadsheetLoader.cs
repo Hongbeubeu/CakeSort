@@ -11,7 +11,7 @@ namespace SuperAshley.GoogleSpreadSheet
 {
     public class SAGoogleSpreadsheetLoader : EditorWindow
     {
-        private const string ApiKey = "1C8MbzCKT2CDGEU8Ix_KPRCfo6UgM-ZPx_wPwXGrX5po";
+        private const string ApiKey = "AIzaSyBedkOU_m9PDCihUS5j_rIECQuOuqFIXX4";
 
         public enum GenerateState
         {
