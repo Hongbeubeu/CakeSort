@@ -6,7 +6,7 @@ using UnityEngine;
 public class ArrangeBoard : MonoBehaviour
 {
     [SerializeField] private BoardSettings _settings;
-    [SerializeField] private List<Transform> _cells = new();
+    [SerializeField, ReadOnly] private List<Transform> _cells = new();
 
     [Button(ButtonSizes.Large)]
     private void FindCell()
@@ -20,7 +20,7 @@ public class ArrangeBoard : MonoBehaviour
         DestroyAllCell();
         for (var i = 0; i < _settings.BoardSize.x * _settings.BoardSize.y; i++)
         {
-            var cell = Instantiate(_settings.CellTemplate, transform, false);
+            var cell = PrefabUtility.InstantiatePrefab(_settings.CellTemplate, transform) as Transform;
             _cells.Add(cell);
         }
     }

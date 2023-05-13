@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.ultimate.core": {
+      "version": "https://github.com/Hongbeubeu/Ultimate-Core.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "6b5a92182bed298d68363a123a189acc61576d63"
+    },
     "com.unity.2d.animation": {
       "version": "7.0.6",
       "depth": 1,
