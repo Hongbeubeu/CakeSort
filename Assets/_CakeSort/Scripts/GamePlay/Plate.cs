@@ -5,15 +5,14 @@ using UnityEngine;
 
 public class Plate : MonoBehaviour
 {
-    [SerializeField] private int _minCakePerPlate;
-    [SerializeField] private int _maxCakePerPlate;
     [SerializeField, ReadOnly] private List<Cake> _cakes = new();
 
     [Button(ButtonSizes.Gigantic)]
     public void RandomCake()
     {
         DestroyAllCakes();
-        var numberOfCake = Random.Range(_minCakePerPlate, _maxCakePerPlate);
+        var numberOfCake = Random.Range(GameManager.Instance.GameConfig.MinPiecePerPlate,
+            GameManager.Instance.GameConfig.MaxPiecePerPlate);
         _cakes = GameManager.Instance.ObjectPooler.InstantiateRandomCakes(2, transform, numberOfCake);
         ArrangeCake();
     }
@@ -21,9 +20,14 @@ public class Plate : MonoBehaviour
     private void ArrangeCake()
     {
         _cakes = _cakes.OrderBy(c => c.ID).ToList();
-        for (var i = 0; i < _cakes.Count; i++)
+        var randomStartIndex = Random.Range(0, GameManager.Instance.GameConfig.PiecePerPlate);
+        var index = randomStartIndex;
+        foreach (var cake in _cakes)
         {
-            _cakes[i].RotateToIndex(i);
+            index %= GameManager.Instance.GameConfig.PiecePerPlate;
+            cake.SetStartRotationIndex(randomStartIndex);
+            cake.RotateToIndex(index);
+            index++;
         }
     }
 
