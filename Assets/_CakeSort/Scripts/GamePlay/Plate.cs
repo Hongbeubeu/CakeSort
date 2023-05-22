@@ -2,32 +2,36 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Plate : MonoBehaviour
 {
     [SerializeField, ReadOnly] private List<Cake> _cakes = new();
+    private PlateSettings _settings;
+
+    private void Start()
+    {
+        _settings = GameManager.Instance.GameSettings.PlateSettings;
+    }
 
     [Button(ButtonSizes.Gigantic)]
     public void RandomCake()
     {
         DestroyAllCakes();
-        var numberOfCake = Random.Range(GameManager.Instance.GameConfig.MinPiecePerPlate,
-            GameManager.Instance.GameConfig.MaxPiecePerPlate);
-        _cakes = GameManager.Instance.ObjectPooler.InstantiateRandomCakes(2, transform, numberOfCake);
+        var numberOfCake = Random.Range(_settings.MinPiecePerPlate, _settings.MaxPiecePerPlate);
+        _cakes = GameManager.Instance.ObjectPooler.InstantiateRandomCakes(5, transform, numberOfCake);
         ArrangeCake();
     }
 
     private void ArrangeCake()
     {
         _cakes = _cakes.OrderBy(c => c.ID).ToList();
-        var randomStartIndex = Random.Range(0, GameManager.Instance.GameConfig.PiecePerPlate);
-        var index = randomStartIndex;
-        foreach (var cake in _cakes)
+        var randomStartIndex = Random.Range(0, _settings.PiecePerPlate);
+        var angle = _settings.Angles[randomStartIndex];
+        for (var i = 0; i < _cakes.Count; i++)
         {
-            index %= GameManager.Instance.GameConfig.PiecePerPlate;
-            cake.SetStartRotationIndex(randomStartIndex);
-            cake.RotateToIndex(index);
-            index++;
+            angle.z = -i * 60;
+            _cakes[i].DoRotate(_settings.Angles[randomStartIndex], angle);
         }
     }
 

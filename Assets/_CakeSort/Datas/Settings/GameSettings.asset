@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3a10891b7f469c9da2f0a565adb64a, type: 3}
+  m_Name: GameSettings
+  m_EditorClassIdentifier: 
+  CakeSettings: {fileID: 11400000, guid: 6ff243a6c85e1184e9f1137207213eab, type: 2}
+  PlateSettings: {fileID: 11400000, guid: 5ccabf7c35f5ef44294ecab297941562, type: 2}

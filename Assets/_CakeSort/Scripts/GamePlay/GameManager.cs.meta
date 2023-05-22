@@ -1,3 +1,14 @@
-﻿fileFormatVersion: 2
+fileFormatVersion: 2
 guid: fc0ce2c902944b818cd57cbd4c257c20
-timeCreated: 1683946215
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ObjectPooler: {fileID: 11400000, guid: 124316e16fa72a74c83a36a0a39ee85e, type: 2}
+  - GameConfig: {fileID: 11400000, guid: d64fb7dfaec0f384b8ff4fc1d8256efe, type: 2}
+  - GameSettings: {fileID: 11400000, guid: 0d6dcb7a68e771542b93a7d29404a8f8, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

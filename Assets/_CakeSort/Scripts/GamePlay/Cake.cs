@@ -1,15 +1,13 @@
+using System;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Cake : MonoBehaviour
 {
     [SerializeField] private int _id;
     [SerializeField] private int _indexInPlate;
-    [SerializeField] private Ease _ease;
-    [SerializeField] private RotateMode _mode;
-    [SerializeField] private bool _isRelative;
-    [SerializeField] private float _duration;
+
+    private CakeSettings _settings;
     public int ID => _id;
 
     public int IndexInPlate
@@ -18,30 +16,17 @@ public class Cake : MonoBehaviour
         set => _indexInPlate = value;
     }
 
-    [Button]
-    public void SetStartRotationIndex(int startIndex)
+    private void Awake()
     {
-        transform.DOKill();
-        startIndex %= GameManager.Instance.GameConfig.Rotates.Length;
-        var targetAngle = new Vector3(0, 0, GameManager.Instance.GameConfig.Rotates[startIndex]);
-        transform.eulerAngles = targetAngle;
+        _settings = GameManager.Instance.GameSettings.CakeSettings;
     }
 
-    [Button]
-    public void RotateToIndex(int targetIndex)
-    {
-        targetIndex %= GameManager.Instance.GameConfig.Rotates.Length;
-        IndexInPlate = targetIndex;
-        var targetAngle = new Vector3(0, 0, GameManager.Instance.GameConfig.Rotates[targetIndex]);
-        transform.DORotate(targetAngle, _duration, _mode).SetEase(_ease).SetOptions(false);
-    }
-
-    [Button]
-    public void Rotate(Vector3 from, Vector3 to)
+    public void DoRotate(Vector3 from, Vector3 angle)
     {
         transform.DOKill();
-        transform.eulerAngles = from;
-        transform.DORotate(to, _duration, _mode).SetEase(_ease).SetOptions(false);
+        transform.rotation = Quaternion.Euler(from);
+        transform.DORotate(angle, _settings.CakeRotateDuration, RotateMode.FastBeyond360)
+            .SetRelative(true);
     }
 
     public void Destroy()

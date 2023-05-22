@@ -98,3 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 3
+  _indexInPlate: 0
+  _ease: 0
+  _mode: 0
+  _isRelative: 0
+  _duration: 1

@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e6cf48bff3548c2916030b23269e6a8, type: 3}
-  m_Name: GameConfig
+  m_Script: {fileID: 11500000, guid: d42d9aec0921407f943c9463731da312, type: 3}
+  m_Name: PlateSettings
   m_EditorClassIdentifier: 
-  MinPiecePerPlate: 3
-  MaxPiecePerPlate: 6
-  Rotates:
+  MinPiecePerPlate: 6
+  MaxPiecePerPlate: 7
+  Angles:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: -60}
   - {x: 0, y: 0, z: -120}

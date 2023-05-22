@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectPooler: {fileID: 11400000, guid: 124316e16fa72a74c83a36a0a39ee85e, type: 2}
   GameConfig: {fileID: 11400000, guid: d64fb7dfaec0f384b8ff4fc1d8256efe, type: 2}
+  GameSettings: {fileID: 11400000, guid: 0d6dcb7a68e771542b93a7d29404a8f8, type: 2}
