@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_CakeSort/Scenes/CakeSort.unity
+    guid: c192864b8a52a7642b894ebb0bfa4add
   m_configObjects: {}
