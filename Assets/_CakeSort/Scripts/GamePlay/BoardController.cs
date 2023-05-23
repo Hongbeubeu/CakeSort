@@ -6,28 +6,31 @@ public class BoardController : MonoBehaviour
     [SerializeField] private BoardSettings _settings;
     private readonly Dictionary<Vector2, Cell> _cells = new();
 
-    private void Start()
+    public void InitCells()
     {
-        InitCells();
-    }
-
-    private void InitCells()
-    {
-        _cells.Clear();
-        var minX = -(_settings.BoardSize.x / 2f - _settings.CellSize / 2f);
-        var minY = -(_settings.BoardSize.y / 2f - _settings.CellSize / 2f);
-        var currentPos = new Vector2(minX, minY);
-
-        for (var row = 0; row < _settings.BoardSize.y; row++)
+        ResetBoard();
+        if (_cells.Count == 0)
         {
-            currentPos.x = minX;
-            for (var col = 0; col < _settings.BoardSize.x; col++)
-            {
-                _cells.Add(currentPos, new Cell());
-                currentPos.x += _settings.CellSize;
-            }
+            var minX = -(_settings.BoardSize.x / 2f - _settings.CellSize / 2f);
+            var minY = -(_settings.BoardSize.y / 2f - _settings.CellSize / 2f);
+            var currentPos = new Vector2(minX, minY);
 
-            currentPos.y += _settings.CellSize;
+            for (var row = 0; row < _settings.BoardSize.y; row++)
+            {
+                currentPos.x = minX;
+                for (var col = 0; col < _settings.BoardSize.x; col++)
+                {
+                    _cells.Add(currentPos, new Cell());
+                    currentPos.x += _settings.CellSize;
+                }
+
+                currentPos.y += _settings.CellSize;
+            }
+        }
+
+        foreach (var cell in _cells)
+        {
+            cell.Value.RemovePlate();
         }
     }
 
@@ -50,6 +53,27 @@ public class BoardController : MonoBehaviour
         _cells[gridPosition].SetPlate(plate);
     }
 
+    public void RemovePlateAt(Vector2 gridPosition)
+    {
+        if (!_cells.ContainsKey(gridPosition))
+        {
+            Debug.LogError($"Not exist grid {gridPosition}");
+            return;
+        }
+
+        _cells[gridPosition].RemovePlate();
+    }
+
+    private void ResetBoard()
+    {
+        foreach (var cell in _cells)
+        {
+            cell.Value.RemovePlate();
+        }
+    }
+
+    #region Utils
+
     private Vector2 ConvertToGrid(Vector2 worldPosition)
     {
         var result = Vector2.zero;
@@ -67,4 +91,6 @@ public class BoardController : MonoBehaviour
 
         return result;
     }
+
+    #endregion
 }

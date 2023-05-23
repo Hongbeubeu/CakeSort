@@ -31,7 +31,7 @@ public class InputController : MonoBehaviour
         if (_holdingPlate == null)
             return;
         var worldPosition = GetWorldPosition(finger);
-        _holdingPlate.DoMove(worldPosition);
+        _holdingPlate.UpdatePosition(worldPosition);
     }
 
     private void OnFingerDown(LeanFinger finger)
@@ -53,13 +53,13 @@ public class InputController : MonoBehaviour
         if (_holdingPlate == null)
             return;
 
-        _holdingPlate.ResetOrderInLayer();
 
         if (GameController.Instance.BoardController.CanPlacePlate(GetWorldPosition(finger), out var gridPosition))
         {
-            _holdingPlate.SetPosition(gridPosition);
+            _holdingPlate.MoveToPosition(gridPosition);
             GameController.Instance.BoardController.AddPlate(gridPosition, _holdingPlate);
             GameController.Instance.Spawner.RemovePlate(_holdingPlate);
+            _holdingPlate.ResetOrderInLayer();
             _holdingPlate = null;
             return;
         }

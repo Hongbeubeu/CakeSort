@@ -42,7 +42,12 @@ public class Plate : MonoBehaviour
     {
         DestroyAllCakes();
         var numberOfCake = Random.Range(_settings.MinPiecePerPlate, _settings.MaxPiecePerPlate);
-        _cakes = GameManager.Instance.ObjectPooler.InstantiateRandomCakes(5, transform, numberOfCake);
+        _cakes = GameManager.Instance.ObjectPooler.InstantiateRandomCakes(
+            GameManager.Instance.PlayerData.MinCakeLevel,
+            GameManager.Instance.PlayerData.MaxCakeLevel,
+            transform,
+            numberOfCake
+        );
         ArrangeCake();
         spawnPosition = transform.position;
     }
@@ -84,12 +89,7 @@ public class Plate : MonoBehaviour
                GameManager.Instance.GameSettings.BoardSettings.CellSize / 2f;
     }
 
-    public void SetPosition(Vector2 position)
-    {
-        transform.position = position;
-    }
-
-    public void DoMove(Vector2 worldPosition)
+    public void UpdatePosition(Vector2 worldPosition)
     {
         transform.position = worldPosition;
     }
@@ -97,6 +97,14 @@ public class Plate : MonoBehaviour
     public void ResetToSpawnPosition()
     {
         transform.DOKill();
-        transform.DOMove(spawnPosition, 0.5f);
+        var duration = Vector2.Distance(transform.position, spawnPosition) / 20f;
+        transform.DOMove(spawnPosition, duration).OnComplete(ResetOrderInLayer);
+    }
+
+    public void MoveToPosition(Vector2 position)
+    {
+        transform.DOKill();
+        var duration = Vector2.Distance(transform.position, spawnPosition) / 50f;
+        transform.DOMove(position, duration);
     }
 }

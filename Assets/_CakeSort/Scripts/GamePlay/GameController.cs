@@ -1,4 +1,6 @@
-﻿using Ultimate.Core.Runtime.Singleton;
+﻿using System.Collections;
+using Sirenix.OdinInspector;
+using Ultimate.Core.Runtime.Singleton;
 using UnityEngine;
 
 public class GameController : Singleton<GameController>
@@ -11,5 +13,17 @@ public class GameController : Singleton<GameController>
 
     public override void Init()
     {
+    }
+
+    [Button(ButtonSizes.Gigantic)]
+    public void StartGame()
+    {
+        BoardController.InitCells();
+        Spawner.Spawn();
+    }
+
+    private IEnumerator SpawnCoroutine()
+    {
+        yield return new WaitForSeconds(GameManager.Instance.GameConfig.WaitTimeBeforeSpawnPlate);
     }
 }

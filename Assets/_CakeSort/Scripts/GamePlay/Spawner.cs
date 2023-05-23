@@ -8,11 +8,6 @@ public class Spawner : MonoBehaviour
     [SerializeField] private Vector3[] _spawnerPositions;
     [SerializeField] private List<Plate> _plates = new(3);
 
-    private void Start()
-    {
-        Spawn();
-    }
-
     public void RemovePlate(Plate plate)
     {
         if (_plates.Contains(plate))

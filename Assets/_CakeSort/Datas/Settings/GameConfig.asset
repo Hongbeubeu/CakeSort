@@ -12,12 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e6cf48bff3548c2916030b23269e6a8, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: 
-  MinPiecePerPlate: 3
-  MaxPiecePerPlate: 6
-  Rotates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: -60}
-  - {x: 0, y: 0, z: -120}
-  - {x: 0, y: 0, z: -180}
-  - {x: 0, y: 0, z: -240}
-  - {x: 0, y: 0, z: -300}
+  _waitTimeBeforeSpawnPlate: 0.5
+  _maxCakeLevelDefault: 2
+  _maxTypeOfCakePerTable: 3
+  _maxCakeLevel: 5
