@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CakeSettings: {fileID: 11400000, guid: 6ff243a6c85e1184e9f1137207213eab, type: 2}
   PlateSettings: {fileID: 11400000, guid: 5ccabf7c35f5ef44294ecab297941562, type: 2}
+  BoardSettings: {fileID: 11400000, guid: 33db9985aefef4b4b9e1b18a3521f5fa, type: 2}

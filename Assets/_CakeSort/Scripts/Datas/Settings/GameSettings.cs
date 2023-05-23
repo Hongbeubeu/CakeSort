@@ -5,4 +5,5 @@ public class GameSettings : ScriptableObject
 {
     public CakeSettings CakeSettings;
     public PlateSettings PlateSettings;
+    public BoardSettings BoardSettings;
 }

@@ -1,37 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-	[SerializeField] private Vector3[] _spawnerPositions;
-	[SerializeField] private List<Plate> _plates = new(3);
+    [SerializeField] private Vector3[] _spawnerPositions;
+    [SerializeField] private List<Plate> _plates = new(3);
 
-	private void Start()
-	{
-		Spawn();
-	}
+    private void Start()
+    {
+        Spawn();
+    }
 
-	[Button(ButtonSizes.Gigantic)]
-	public void Spawn()
-	{
-		DestroyPlates();
-		for (int i = 0; i < _spawnerPositions.Length; i++)
-		{
-			var plate = GameManager.Instance.ObjectPooler.InstantiatePlate(transform, _spawnerPositions[i]);
-			_plates.Add(plate);
-			plate.RandomCake();
-		}
-	}
+    public bool IsTouchOnPlate(Vector2 position, out Plate plate)
+    {
+        plate = null;
+        foreach (var p in _plates.Where(p => p.IsTouchOnPlate(position)))
+        {
+            plate = p;
+            return true;
+        }
 
-	private void DestroyPlates()
-	{
-		for (int i = 0; i < _plates.Count; i++)
-		{
-			_plates[i].Destroy();
-		}
+        return false;
+    }
 
-		_plates.Clear();
-	}
+    [Button(ButtonSizes.Gigantic)]
+    public void Spawn()
+    {
+        DestroyPlates();
+        foreach (var t in _spawnerPositions)
+        {
+            var plate = GameManager.Instance.ObjectPooler.InstantiatePlate(transform, t);
+            _plates.Add(plate);
+            plate.RandomCake();
+        }
+    }
+
+    private void DestroyPlates()
+    {
+        foreach (var t in _plates)
+        {
+            t.Destroy();
+        }
+
+        _plates.Clear();
+    }
 }
