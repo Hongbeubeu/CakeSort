@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d42d9aec0921407f943c9463731da312, type: 3}
   m_Name: PlateSettings
   m_EditorClassIdentifier: 
-  MinPiecePerPlate: 6
-  MaxPiecePerPlate: 7
+  MinPiecePerPlate: 1
+  MaxPiecePerPlate: 6
   Angles:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: -60}

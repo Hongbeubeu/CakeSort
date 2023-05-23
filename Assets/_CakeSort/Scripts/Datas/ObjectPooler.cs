@@ -5,43 +5,62 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "ObjectPooler", menuName = "Data/ObjectPooler")]
 public class ObjectPooler : ScriptableObject
 {
-    [SerializeField] private Cake[] _cakes;
+	[SerializeField] private Cake[] _cakes;
+	[SerializeField] private Plate _plate;
 
-    public Cake InstantiateRandomCake(int targetLevel, Transform parent)
-    {
-        if (targetLevel >= _cakes.Length)
-            targetLevel = _cakes.Length - 1;
-        var randomIndex = Random.Range(0, targetLevel);
-        return FastPoolManager.GetPool(_cakes[randomIndex])
-            .FastInstantiate<Cake>(Vector3.zero, Quaternion.identity, parent);
-    }
+	#region Instantiate Cakes
 
-    public void DestroyCake(int level, GameObject gameObject)
-    {
-        if (level >= _cakes.Length)
-        {
-            Debug.LogError($"Not found Cake with index: {level} for Destroy");
-            return;
-        }
+	public Cake InstantiateRandomCake(int targetLevel, Transform parent)
+	{
+		if (targetLevel >= _cakes.Length)
+			targetLevel = _cakes.Length - 1;
+		var randomIndex = Random.Range(0, targetLevel);
+		return FastPoolManager.GetPool(_cakes[randomIndex])
+			.FastInstantiate<Cake>(Vector3.zero, Quaternion.identity, parent);
+	}
 
-        FastPoolManager.GetPool(_cakes[level]).FastDestroy(gameObject);
-    }
+	public List<Cake> InstantiateRandomCakes(int targetLevel, Transform parent, int quantity)
+	{
+		if (quantity <= 0)
+		{
+			Debug.LogError("Zero cake is not illegal");
+			return null;
+		}
 
-    public List<Cake> InstantiateRandomCakes(int targetLevel, Transform parent, int quantity)
-    {
-        if (quantity <= 0)
-        {
-            Debug.LogError("Zero cake is not illegal");
-            return null;
-        }
+		var result = new List<Cake>();
+		for (var i = 0; i < quantity; i++)
+		{
+			var cake = InstantiateRandomCake(targetLevel, parent);
+			result.Add(cake);
+		}
 
-        var result = new List<Cake>();
-        for (var i = 0; i < quantity; i++)
-        {
-            var cake = InstantiateRandomCake(targetLevel, parent);
-            result.Add(cake);
-        }
+		return result;
+	}
 
-        return result;
-    }
+	public void DestroyCake(int level, GameObject gameObject)
+	{
+		if (level >= _cakes.Length)
+		{
+			Debug.LogError($"Not found Cake with index: {level} for Destroy");
+			return;
+		}
+
+		FastPoolManager.GetPool(_cakes[level]).FastDestroy(gameObject);
+	}
+
+	#endregion Instantiate Cakes
+
+	#region Instantiate Plates
+
+	public Plate InstantiatePlate(Transform parent, Vector3 position)
+	{
+		return FastPoolManager.GetPool(_plate).FastInstantiate<Plate>(position, Quaternion.identity, parent);
+	}
+
+	public void DestroyPlate(GameObject gameObject)
+	{
+		FastPoolManager.GetPool(_plate).FastDestroy(gameObject);
+	}
+
+	#endregion
 }

@@ -19,3 +19,4 @@ MonoBehaviour:
   - {fileID: 3268639659780626351, guid: 23e81484e86da2a48afa5ad9445cade4, type: 3}
   - {fileID: 3268639659780626351, guid: 76d705a481fbf3c4fad824685c0d1c5a, type: 3}
   - {fileID: 3268639659780626351, guid: ed11d1011bfe5f14eb97e86869aa79cb, type: 3}
+  _plate: {fileID: 2273552559795284559, guid: b04d611dd9b3881458bcf70bd1e5d38c, type: 3}
