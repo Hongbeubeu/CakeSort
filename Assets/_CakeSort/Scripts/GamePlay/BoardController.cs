@@ -23,7 +23,7 @@ public class BoardController : MonoBehaviour
             currentPos.x = minX;
             for (var col = 0; col < _settings.BoardSize.x; col++)
             {
-                _cells.Add(currentPos, null);
+                _cells.Add(currentPos, new Cell());
                 currentPos.x += _settings.CellSize;
             }
 
@@ -36,7 +36,18 @@ public class BoardController : MonoBehaviour
         gridPosition = ConvertToGrid(position);
         if (!_cells.ContainsKey(gridPosition))
             return false;
-        return _cells[gridPosition] == null;
+        return !_cells[gridPosition].IsContainPlate;
+    }
+
+    public void AddPlate(Vector2 gridPosition, Plate plate)
+    {
+        if (!_cells.ContainsKey(gridPosition))
+        {
+            Debug.LogError($"Not exist grid {gridPosition}");
+            return;
+        }
+
+        _cells[gridPosition].SetPlate(plate);
     }
 
     private Vector2 ConvertToGrid(Vector2 worldPosition)

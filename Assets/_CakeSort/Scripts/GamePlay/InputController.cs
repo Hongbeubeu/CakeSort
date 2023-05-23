@@ -46,18 +46,20 @@ public class InputController : MonoBehaviour
         {
             _holdingPlate.SetOrderInLayer(10);
         }
-        
     }
 
     private void OnFingerUp(LeanFinger finger)
     {
         if (_holdingPlate == null)
             return;
+
+        _holdingPlate.ResetOrderInLayer();
+
         if (GameController.Instance.BoardController.CanPlacePlate(GetWorldPosition(finger), out var gridPosition))
         {
             _holdingPlate.SetPosition(gridPosition);
+            GameController.Instance.BoardController.AddPlate(gridPosition, _holdingPlate);
             GameController.Instance.Spawner.RemovePlate(_holdingPlate);
-            _holdingPlate.ResetOrderInLayer();
             _holdingPlate = null;
             return;
         }
