@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d64fa48d5b54ce99c4547c40a055c9b, type: 3}
   m_Name: BoardSettings
   m_EditorClassIdentifier: 
-  CellTemplate: {fileID: 3269786011707288329, guid: fb95365a7512ab1419da6de27fac18e9, type: 3}
-  BoardSize: {x: 4, y: 5}
-  CellSize: 1
+  _cellTemplate: {fileID: 3269786011707288329, guid: fb95365a7512ab1419da6de27fac18e9, type: 3}
+  _boardSize: {x: 4, y: 5}
+  _cellSize: 1
