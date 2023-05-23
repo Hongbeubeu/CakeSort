@@ -64,6 +64,11 @@ public class Plate : MonoBehaviour
                GameManager.Instance.GameSettings.BoardSettings.CellSize / 2f;
     }
 
+    public void SetPosition(Vector2 position)
+    {
+        transform.position = position;
+    }
+
     public void DoMove(Vector2 worldPosition)
     {
         transform.position = worldPosition;

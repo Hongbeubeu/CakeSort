@@ -31,10 +31,9 @@ public class BoardController : MonoBehaviour
         }
     }
 
-    public bool CanPlacePlate(Vector2 position)
+    public bool CanPlacePlate(Vector2 position, out Vector2 gridPosition)
     {
-        var gridPosition = ConvertToGrid(position);
-        Debug.Log($"{position} - {gridPosition}");
+        gridPosition = ConvertToGrid(position);
         if (!_cells.ContainsKey(gridPosition))
             return false;
         return _cells[gridPosition] == null;

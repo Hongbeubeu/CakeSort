@@ -13,6 +13,14 @@ public class Spawner : MonoBehaviour
         Spawn();
     }
 
+    public void RemovePlate(Plate plate)
+    {
+        if (_plates.Contains(plate))
+        {
+            _plates.Remove(plate);
+        }
+    }
+
     public bool IsTouchOnPlate(Vector2 position, out Plate plate)
     {
         plate = null;

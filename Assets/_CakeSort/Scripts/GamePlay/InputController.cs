@@ -45,10 +45,18 @@ public class InputController : MonoBehaviour
         GameController.Instance.Spawner.IsTouchOnPlate(worldPosition, out _holdingPlate);
     }
 
-    private void OnFingerUp(LeanFinger obj)
+    private void OnFingerUp(LeanFinger finger)
     {
         if (_holdingPlate == null)
             return;
+        if (GameController.Instance.BoardController.CanPlacePlate(GetWorldPosition(finger), out var gridPosition))
+        {
+            _holdingPlate.SetPosition(gridPosition);
+            GameController.Instance.Spawner.RemovePlate(_holdingPlate);
+            _holdingPlate = null;
+            return;
+        }
+
         _holdingPlate.ResetToSpawnPosition();
         _holdingPlate = null;
     }
