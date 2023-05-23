@@ -1,4 +1,3 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -6,7 +5,8 @@ public class Cake : MonoBehaviour
 {
     [SerializeField] private int _id;
     [SerializeField] private int _indexInPlate;
-
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private int _rootSortingOrder;
     private CakeSettings _settings;
     public int ID => _id;
 
@@ -19,6 +19,16 @@ public class Cake : MonoBehaviour
     private void Awake()
     {
         _settings = GameManager.Instance.GameSettings.CakeSettings;
+    }
+
+    public void SetOrderInLayer(int order)
+    {
+        _spriteRenderer.sortingOrder = order;
+    }
+
+    public void ResetOrderInLayer()
+    {
+        _spriteRenderer.sortingOrder = _rootSortingOrder;
     }
 
     public void DoRotate(Vector3 from, Vector3 angle)

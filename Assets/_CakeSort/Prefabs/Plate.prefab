@@ -97,4 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3ccd3a910b93be439a3e4dd761c085e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 6448990963911006473}
   _cakes: []
+  _rootSortingOrder: 2

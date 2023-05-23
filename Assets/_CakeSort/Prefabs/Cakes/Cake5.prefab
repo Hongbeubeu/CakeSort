@@ -99,7 +99,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 4
   _indexInPlate: 0
-  _ease: 0
-  _mode: 0
-  _isRelative: 0
-  _duration: 1
+  _spriteRenderer: {fileID: 8478939646980153770}
+  _rootSortingOrder: 5

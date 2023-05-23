@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
@@ -8,13 +7,34 @@ using Random = UnityEngine.Random;
 
 public class Plate : MonoBehaviour
 {
+    [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField, ReadOnly] private List<Cake> _cakes = new();
+    [SerializeField] private int _rootSortingOrder;
     private PlateSettings _settings;
     private Vector3 spawnPosition;
+
 
     private void Awake()
     {
         _settings = GameManager.Instance.GameSettings.PlateSettings;
+    }
+
+    public void SetOrderInLayer(int order)
+    {
+        _spriteRenderer.sortingOrder = order;
+        foreach (var c in _cakes)
+        {
+            c.SetOrderInLayer(order + 1);
+        }
+    }
+
+    public void ResetOrderInLayer()
+    {
+        _spriteRenderer.sortingOrder = _rootSortingOrder;
+        foreach (var c in _cakes)
+        {
+            c.ResetOrderInLayer();
+        }
     }
 
     [Button(ButtonSizes.Gigantic)]

@@ -42,7 +42,11 @@ public class InputController : MonoBehaviour
         }
 
         var worldPosition = GetWorldPosition(finger);
-        GameController.Instance.Spawner.IsTouchOnPlate(worldPosition, out _holdingPlate);
+        if (GameController.Instance.Spawner.IsTouchOnPlate(worldPosition, out _holdingPlate))
+        {
+            _holdingPlate.SetOrderInLayer(10);
+        }
+        
     }
 
     private void OnFingerUp(LeanFinger finger)
@@ -53,6 +57,7 @@ public class InputController : MonoBehaviour
         {
             _holdingPlate.SetPosition(gridPosition);
             GameController.Instance.Spawner.RemovePlate(_holdingPlate);
+            _holdingPlate.ResetOrderInLayer();
             _holdingPlate = null;
             return;
         }
