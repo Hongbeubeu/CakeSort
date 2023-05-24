@@ -10,10 +10,12 @@ public class Spawner : MonoBehaviour
 
     public void RemovePlate(Plate plate)
     {
-        if (_plates.Contains(plate))
-        {
-            _plates.Remove(plate);
-        }
+        if (!_plates.Contains(plate)) return;
+
+        _plates.Remove(plate);
+
+        if (_plates.Count == 0)
+            Spawn();
     }
 
     public bool IsTouchOnPlate(Vector2 position, out Plate plate)

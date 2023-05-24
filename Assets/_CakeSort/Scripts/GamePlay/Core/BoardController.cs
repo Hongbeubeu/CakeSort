@@ -75,9 +75,9 @@ public class BoardController : MonoBehaviour
 	public void FindNeighbourHasCakeId(Plate plate, int id)
 	{
 		Vector2 currentPos = plate.transform.position;
-		for (int i = 0; i < _settings.Directions.Length; i++)
+		foreach (var t in _settings.Directions)
 		{
-			var pos = currentPos + _settings.Directions[i];
+			var pos = currentPos + t;
 			if (!_cells.ContainsKey(pos) || !_cells[pos].IsContainPlate)
 			{
 				continue;

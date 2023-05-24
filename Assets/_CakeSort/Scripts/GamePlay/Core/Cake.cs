@@ -52,8 +52,8 @@ public class Cake : MonoBehaviour
 	public void DoMoveAndRotate(Vector3 targetPosition, Vector3 targetAngle)
 	{
 		transform.DOKill();
-		transform.DOMove(targetPosition, 0.3f);
-		transform.DORotate(targetAngle, 0.3f);
+		transform.DOMove(targetPosition, 0.5f);
+		transform.DORotate(targetAngle, 0.5f);
 	}
 
 	public void Destroy()
