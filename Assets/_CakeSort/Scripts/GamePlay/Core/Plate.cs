@@ -155,12 +155,17 @@ public class Plate : MonoBehaviour
 
 	public void MoveCakeToTarget(Plate plate, int id)
 	{
+		var removedCakes = new List<Cake>();
 		for (int i = 0; i < _cakes.Count; i++)
 		{
 			if (_cakes[i].ID != id) continue;
-
 			plate.AddCake(_cakes[i]);
-			_cakes[i] = null;
+			removedCakes.Add(_cakes[i]);
+		}
+
+		for (int i = 0; i < removedCakes.Count; i++)
+		{
+			_cakes.Remove(removedCakes[i]);
 		}
 	}
 }
