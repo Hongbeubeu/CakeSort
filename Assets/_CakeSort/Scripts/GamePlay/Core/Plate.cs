@@ -13,6 +13,8 @@ public class Plate : MonoBehaviour
 	private PlateSettings _settings;
 	private Vector3 spawnPosition;
 
+	public int LastIndex => (_cakes[^1].ID + 1) % _settings.MaxPiecePerPlate;
+
 
 	private void Awake()
 	{
@@ -60,6 +62,7 @@ public class Plate : MonoBehaviour
 		for (var i = 0; i < _cakes.Count; i++)
 		{
 			angle.z = -i * 60;
+			_cakes[i].IndexInPlate = randomStartIndex + i;
 			_cakes[i].DoRotate(_settings.Angles[randomStartIndex], angle);
 		}
 	}
@@ -69,7 +72,7 @@ public class Plate : MonoBehaviour
 	{
 		foreach (var cake in _cakes)
 		{
-			cake.Destroy();
+			cake?.Destroy();
 		}
 
 		_cakes.Clear();
@@ -105,11 +108,59 @@ public class Plate : MonoBehaviour
 	{
 		transform.DOKill();
 		var duration = Vector2.Distance(transform.position, spawnPosition) / 50f;
-		transform.DOMove(position, duration);
+		transform.DOMove(position, duration).OnComplete(OnPlacedToBoard);
 	}
 
 	private void OnPlacedToBoard()
 	{
-		
+		var id = _cakes[0].ID;
+		GameController.Instance.BoardController.FindNeighbourHasCakeId(this, id);
+	}
+
+	[Button(ButtonSizes.Gigantic)]
+	public void AddCakeByIndex(int index)
+	{
+		if (_cakes.Count == _settings.MaxPiecePerPlate)
+			return;
+		var cake = GameManager.Instance.ObjectPooler.InstantiateCake(index, transform);
+		var lastIndex = _cakes[^1].IndexInPlate + 1;
+		cake.SetRotation(_settings.Angles[lastIndex % _settings.Angles.Length]);
+		cake.IndexInPlate = lastIndex;
+		_cakes.Add(cake);
+	}
+
+	public void AddCake(Cake cake)
+	{
+		cake.transform.SetParent(null);
+		cake.MoveToPlate(this);
+		_cakes.Add(cake);
+	}
+
+	public bool HasCake(int id)
+	{
+		return _cakes.Any(t => t.ID == id);
+	}
+
+	private bool IsComplete()
+	{
+		var id = _cakes[0].ID;
+		for (int i = 1; i < _cakes.Count; i++)
+		{
+			if (_cakes[i].ID != id)
+				return false;
+		}
+
+		return true;
+	}
+
+	public void MoveCakeToTarget(Plate plate, int id)
+	{
+		for (int i = 0; i < _cakes.Count; i++)
+		{
+			if (_cakes[i].ID != id) continue;
+
+			plate.AddCake(_cakes[i]);
+			_cakes[i] = null;
+		}
 	}
 }
