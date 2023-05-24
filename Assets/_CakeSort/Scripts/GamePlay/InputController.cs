@@ -56,7 +56,7 @@ public class InputController : MonoBehaviour
 
         if (GameController.Instance.BoardController.CanPlacePlate(GetWorldPosition(finger), out var gridPosition))
         {
-            _holdingPlate.MoveToPosition(gridPosition);
+            _holdingPlate.MoveToPositionOnBoard(gridPosition);
             GameController.Instance.BoardController.AddPlate(gridPosition, _holdingPlate);
             GameController.Instance.Spawner.RemovePlate(_holdingPlate);
             _holdingPlate.ResetOrderInLayer();
