@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -19,6 +20,19 @@ public class Cake : MonoBehaviour
 	private void Awake()
 	{
 		_settings = GameManager.Instance.GameSettings.CakeSettings;
+	}
+
+	private void OnEnable()
+	{
+		Reset();
+	}
+
+	private void Reset()
+	{
+		transform.localScale = Vector3.one;
+		var color = _spriteRenderer.color;
+		color.a = 1;
+		_spriteRenderer.color = color;
 	}
 
 	public void SetOrderInLayer(int order)
@@ -46,7 +60,8 @@ public class Cake : MonoBehaviour
 
 	public void MoveToPlate(Plate plate)
 	{
-		DoMoveAndRotate(plate.transform.position, GameManager.Instance.GameSettings.PlateSettings.Angles[plate.LastIndex]);
+		DoMoveAndRotate(plate.transform.position,
+			GameManager.Instance.GameSettings.PlateSettings.Angles[plate.LastIndex]);
 	}
 
 	public void DoMoveAndRotate(Vector3 targetPosition, Vector3 targetAngle)
@@ -56,9 +71,27 @@ public class Cake : MonoBehaviour
 		transform.DORotate(targetAngle, 0.5f);
 	}
 
-	public void Destroy()
+	public void Destroy(bool hasAnim = true)
 	{
 		transform.SetParent(null);
+		if (hasAnim)
+		{
+			transform.DOScale(Vector3.zero, 0.3f).SetEase(Ease.InBack).OnComplete(ReturnPool);
+			var targetColor = _spriteRenderer.color;
+			targetColor.a = 0;
+			DOVirtual.Color(_spriteRenderer.color,
+					targetColor,
+					0.3f,
+					value => { _spriteRenderer.color = value; })
+				.SetEase(Ease.InBack);
+			return;
+		}
+
+		ReturnPool();
+	}
+
+	private void ReturnPool()
+	{
 		GameManager.Instance.ObjectPooler.DestroyCake(_id, gameObject);
 	}
 }

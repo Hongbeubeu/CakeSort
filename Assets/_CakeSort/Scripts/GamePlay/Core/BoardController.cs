@@ -4,31 +4,33 @@ using UnityEngine;
 public class BoardController : MonoBehaviour
 {
 	[SerializeField] private BoardSettings _settings;
-	private readonly Dictionary<Vector2, Cell> _cells = new();
+	[SerializeField] private Cell[] _cells;
+	private readonly Dictionary<Vector2, Cell> _managedCells = new();
 
 	public void InitCells()
 	{
 		ResetBoard();
-		if (_cells.Count == 0)
+		if (_managedCells.Count == 0)
 		{
 			var minX = -(_settings.BoardSize.x / 2f - _settings.CellSize / 2f);
 			var minY = -(_settings.BoardSize.y / 2f - _settings.CellSize / 2f);
 			var currentPos = new Vector2(minX, minY);
-
+			var index = 0;
 			for (var row = 0; row < _settings.BoardSize.y; row++)
 			{
 				currentPos.x = minX;
 				for (var col = 0; col < _settings.BoardSize.x; col++)
 				{
-					_cells.Add(currentPos, new Cell());
+					_managedCells.Add(currentPos, _cells[index]);
 					currentPos.x += _settings.CellSize;
+					index++;
 				}
 
 				currentPos.y += _settings.CellSize;
 			}
 		}
 
-		foreach (var cell in _cells)
+		foreach (var cell in _managedCells)
 		{
 			cell.Value.RemovePlate();
 		}
@@ -37,36 +39,36 @@ public class BoardController : MonoBehaviour
 	public bool CanPlacePlate(Vector2 position, out Vector2 gridPosition)
 	{
 		gridPosition = ConvertToGrid(position);
-		if (!_cells.ContainsKey(gridPosition))
+		if (!_managedCells.ContainsKey(gridPosition))
 			return false;
-		return !_cells[gridPosition].IsContainPlate;
+		return !_managedCells[gridPosition].IsContainPlate;
 	}
 
 	public void AddPlate(Vector2 gridPosition, Plate plate)
 	{
-		if (!_cells.ContainsKey(gridPosition))
+		if (!_managedCells.ContainsKey(gridPosition))
 		{
 			Debug.LogError($"Not exist grid {gridPosition}");
 			return;
 		}
 
-		_cells[gridPosition].SetPlate(plate);
+		_managedCells[gridPosition].SetPlate(plate);
 	}
 
 	public void RemovePlateAt(Vector2 gridPosition)
 	{
-		if (!_cells.ContainsKey(gridPosition))
+		if (!_managedCells.ContainsKey(gridPosition))
 		{
 			Debug.LogError($"Not exist grid {gridPosition}");
 			return;
 		}
 
-		_cells[gridPosition].RemovePlate();
+		_managedCells[gridPosition].RemovePlate();
 	}
 
 	private void ResetBoard()
 	{
-		foreach (var cell in _cells)
+		foreach (var cell in _managedCells)
 		{
 			cell.Value.RemovePlate();
 		}
@@ -78,14 +80,14 @@ public class BoardController : MonoBehaviour
 		foreach (var t in _settings.Directions)
 		{
 			var pos = currentPos + t;
-			if (!_cells.ContainsKey(pos) || !_cells[pos].IsContainPlate)
+			if (!_managedCells.ContainsKey(pos) || !_managedCells[pos].IsContainPlate)
 			{
 				continue;
 			}
 
-			if (_cells[pos].Plate.HasCake(id))
+			if (_managedCells[pos].Plate.HasCake(id))
 			{
-				_cells[pos].Plate.MoveCakeToTarget(plate, id);
+				_managedCells[pos].Plate.MoveCakeToTarget(plate, id);
 			}
 		}
 	}
