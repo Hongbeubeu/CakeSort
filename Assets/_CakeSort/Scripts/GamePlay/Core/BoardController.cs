@@ -76,6 +76,7 @@ public class BoardController : MonoBehaviour
 
     public void FindNeighbourHasCakeId(Plate plate, int id)
     {
+        Debug.LogError(id);
         Vector2 currentPos = plate.transform.position;
         foreach (var t in _settings.Directions)
         {
@@ -87,7 +88,19 @@ public class BoardController : MonoBehaviour
 
             if (!_managedCells[pos].Plate.HasCake(id)) continue;
 
-            if (_managedCells[pos].Plate.NumberTypeOfCake >= plate.NumberTypeOfCake)
+            if (_managedCells[pos].Plate.NumberTypeOfCake > plate.NumberTypeOfCake)
+            {
+                _managedCells[pos].Plate.MoveCakeToTarget(plate, id);
+                continue;
+            }
+
+            if (_managedCells[pos].Plate.NumberTypeOfCake < plate.NumberTypeOfCake)
+            {
+                plate.MoveCakeToTarget(_managedCells[pos].Plate, id);
+                continue;
+            }
+
+            if (_managedCells[pos].Plate.NumberOfEmptySlot < plate.NumberOfEmptySlot)
             {
                 _managedCells[pos].Plate.MoveCakeToTarget(plate, id);
             }

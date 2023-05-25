@@ -176,12 +176,18 @@ public class Plate : MonoBehaviour
 
     private void FindCakeNearBy()
     {
+        var ids = new List<int>();
         var id = -1;
         foreach (var cake in _cakes)
         {
             if (id == cake.ID) continue;
             id = cake.ID;
-            GameController.Instance.BoardController.FindNeighbourHasCakeId(this, id);
+            ids.Add(id);
+        }
+
+        foreach (var i in ids)
+        {
+            GameController.Instance.BoardController.FindNeighbourHasCakeId(this, i);
         }
     }
 
@@ -191,9 +197,16 @@ public class Plate : MonoBehaviour
         cake.MoveToPlate(this);
         cake.IndexInPlate = LastIndex;
         _cakes.Add(cake);
+        StartCoroutine(IEArrangeCake());
         if (!IsFullOfCake)
             return;
         StartCoroutine(IECheckComplete());
+    }
+
+    private IEnumerator IEArrangeCake()
+    {
+        yield return new WaitForSeconds(0.5f);
+        ArrangeCake();
     }
 
     private IEnumerator IECheckComplete()
@@ -242,7 +255,7 @@ public class Plate : MonoBehaviour
         {
             _cakes.Remove(t);
         }
-
+        
         if (IsEmpty())
         {
             Destroy();
