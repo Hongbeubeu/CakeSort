@@ -20,7 +20,15 @@ public class Cell : MonoBehaviour
 		_plate.DestroyAction += OnPlateDestroy;
 	}
 
-	public void RemovePlate()
+	public void DestroyPlate()
+	{
+		if (_plate == null)
+			return;
+		_plate.Destroy();
+		_plate = null;
+	}
+
+	private void RemovePlate()
 	{
 		_plate = null;
 	}

@@ -150,8 +150,17 @@ public class Plate : MonoBehaviour
 
 	private void OnPlacedToBoard()
 	{
-		var id = _cakes[0].ID;
-		GameController.Instance.BoardController.FindNeighbourHasCakeId(this, id);
+		FindCakeNearBy();
+	}
+
+	private void FindCakeNearBy()
+	{
+		var id = -1;
+		foreach (var cake in _cakes.Where(cake => cake.ID != id))
+		{
+			id = cake.ID;
+			GameController.Instance.BoardController.FindNeighbourHasCakeId(this, id);
+		}
 	}
 
 	public void AddCake(Cake cake)
@@ -213,6 +222,9 @@ public class Plate : MonoBehaviour
 		if (IsEmpty())
 		{
 			Destroy();
+			return;
 		}
+
+		FindCakeNearBy();
 	}
 }

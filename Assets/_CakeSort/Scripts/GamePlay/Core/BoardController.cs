@@ -32,7 +32,7 @@ public class BoardController : MonoBehaviour
 
 		foreach (var cell in _managedCells)
 		{
-			cell.Value.RemovePlate();
+			cell.Value.DestroyPlate();
 		}
 	}
 
@@ -63,14 +63,14 @@ public class BoardController : MonoBehaviour
 			return;
 		}
 
-		_managedCells[gridPosition].RemovePlate();
+		_managedCells[gridPosition].DestroyPlate();
 	}
 
 	private void ResetBoard()
 	{
 		foreach (var cell in _managedCells)
 		{
-			cell.Value.RemovePlate();
+			cell.Value.DestroyPlate();
 		}
 	}
 
